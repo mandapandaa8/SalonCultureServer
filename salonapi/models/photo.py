@@ -2,9 +2,6 @@ from django.db import models
 
 class Photo(models.Model):
 
-    photoURL = models.URLField(max_length=300)
+    photo_url = models.URLField(max_length=300)
     caption = models.CharField(max_length=300)
-    artistId = models.ForeignKey("Artist", on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
+    artist_id = models.ForeignKey("Artist", on_delete=models.CASCADE, related_name="photos")

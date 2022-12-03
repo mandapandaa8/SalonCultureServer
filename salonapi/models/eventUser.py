@@ -3,8 +3,5 @@ from django.contrib.auth.models import User
 
 class EventUser(models.Model):
     
-    userId = models.ForeignKey(User, on_delete=models.CASCADE)
-    eventId = models.ForeignKey("Event", on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="event_user")
+    event_id = models.ForeignKey("Event", on_delete=models.CASCADE, related_name="event_user")
