@@ -20,7 +20,6 @@ class ArtistView(ViewSet):
         artist.user_id = request.data[User]
         artist.medium = request.data["medium"]
         artist.cv = request.data["cv"]
-        artist.profile_img = request.data["profileImg"]
         artist.location_id = request.data["locationId"]
         artist.save()
 
@@ -39,4 +38,4 @@ class ArtistSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Artist
-        fields = ('id', 'user_id', 'medium', 'cv', 'profile_img', 'location_id')
+        fields = ('id', 'user_id', 'medium', 'cv', 'location_id')

@@ -7,4 +7,4 @@ from .event import Event
 from .eventUser import EventUser
 from .host import Host
 from .accommodation import Accommodation
-from .eventAccommodation import EventAccommodation
+from .user import User

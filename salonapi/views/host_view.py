@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from salonapi.models import Artist, Host, Accommodation
+from salonapi.models import Host
 from django.contrib.auth.models import User
 
 class HostView(ViewSet):
@@ -17,9 +17,8 @@ class HostView(ViewSet):
 
     def update(self, request, pk):
         host = Host.objects.get(pk=pk)
-        host.user = request.data[User]
+        host.user_id = request.data[User]
         host.address = request.data["address"]
-        host.profile_img = request.data["profileImg"]
         host.description = request.data["description"]
         host.photo_id = request.data["photoId"]
         host.location_id = request.data["locationId"]
@@ -41,4 +40,4 @@ class HostSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Host
-        fields = ('id', 'user', 'address', 'profile_img', 'description', 'photo_id', 'location_id')
+        fields = ('id', 'user', 'address', 'description', 'photo_id', 'location_id')

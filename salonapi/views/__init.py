@@ -4,3 +4,4 @@ from artist_view import ArtistView
 from comment_view import CommentView
 from event_view import EventView
 from host_view import HostView
+from location_view import LocationView
