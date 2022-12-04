@@ -17,7 +17,7 @@ class HostView(ViewSet):
 
     def update(self, request, pk):
         host = Host.objects.get(pk=pk)
-        host.user_id = request.data[User]
+        host.user = request.data[User]
         host.address = request.data["address"]
         host.description = request.data["description"]
         host.photo_id = request.data["photoId"]

@@ -1,0 +1,13 @@
+[
+    {
+        "model": "salonapi.host",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "address": "123 Main St",
+            "description": "There are three walls to hang mid sized work and a few stands, if you have any to bring, please do, and if not we can rotate the work as we move along.",
+            "photo_id": 1,
+            "location_id": 1
+        }
+    }
+]

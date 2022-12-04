@@ -17,7 +17,7 @@ class ArtistView(ViewSet):
 
     def update(self, request, pk):
         artist = Artist.objects.get(pk=pk)
-        artist.user_id = request.data[User]
+        artist.user = request.data[User]
         artist.medium = request.data["medium"]
         artist.cv = request.data["cv"]
         artist.location_id = request.data["locationId"]
@@ -38,4 +38,4 @@ class ArtistSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Artist
-        fields = ('id', 'user_id', 'medium', 'cv', 'location_id')
+        fields = ('id', 'user', 'medium', 'cv', 'location_id')
