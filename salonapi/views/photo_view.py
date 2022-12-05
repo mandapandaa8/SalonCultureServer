@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from salonapi.models import Photo, Artist
+from salonapi.models import Photo, User
 
 class PhotoView(ViewSet):
     def retrieve(self, request, pk):
@@ -16,7 +16,7 @@ class PhotoView(ViewSet):
 
     def update(self, request, pk):
         photo = Photo.objects.get(pk=pk)
-        photo.artist_id = request.data[Artist]
+        photo.user = request.data[User]
         photo.photo_url = request.data["photoURL"]
         photo.caption = request.data["caption"]
         photo.save()
@@ -36,4 +36,4 @@ class PhotoSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Photo
-        fields = ('id', 'artist_id', 'photo_url', 'caption')
+        fields = ('id', 'user', 'photo_url', 'caption')

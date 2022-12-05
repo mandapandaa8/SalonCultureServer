@@ -18,7 +18,7 @@ class CommentView(ViewSet):
         comment = Comment.objects.get(pk=pk)
         comment.comment_text = request.data["commentText"]
         comment.photo_id = request.data["photoId"]
-        comment.user_id = request.data["userId"]
+        comment.user = request.data["userId"]
         comment.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -27,7 +27,7 @@ class CommentView(ViewSet):
         new_comment = Comment()
         new_comment.comment_text = request.data["commentText"]
         new_comment.photo_id = request.data["photoId"]
-        new_comment.user_id = request.data["userId"]
+        new_comment.user = request.data["userId"]
         new_comment.save()
 
         serializer = CommentSerializer(new_comment)
@@ -47,4 +47,4 @@ class CommentSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Comment
-        fields = ('id', 'comment_text', 'photo_id', 'user_id')
+        fields = ('id', 'comment_text', 'photo_id', 'user')

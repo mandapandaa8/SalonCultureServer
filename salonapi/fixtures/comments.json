@@ -1,0 +1,11 @@
+[
+    {
+        "model": "salonapi.comment",
+        "pk": 1,
+        "fields": {
+            "comment_text": "This was a great photo. I really enjoy the contrast. I can tell dodged some of the shadow to bring out what is inside, and it turned out well, though could have been a little more subtle around the edge. I also like the way you framed the photo, and the way you used the light to bring out the details. I think you could have used a little more light to bring out the details in the background, but overall, it was a great photo.",
+            "photo_id": 1,
+            "user": 1
+        }
+    }
+]

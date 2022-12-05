@@ -1,0 +1,10 @@
+[
+    {
+        "model": "salonapi.location",
+        "pk": 1,
+        "fields": {
+            "city": "New York",
+            "state": "NY"
+        }
+    }
+]

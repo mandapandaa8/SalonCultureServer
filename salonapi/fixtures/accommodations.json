@@ -1,0 +1,23 @@
+[
+    {
+        "model": "salonapi.accommodation",
+        "pk": 1,
+        "fields": {
+            "accommodation_name": "Food"
+        }
+    },
+    {
+        "model": "salonapi.accommodation",
+        "pk": 2,
+        "fields": {
+            "accommodation_name": "Drinks"
+        }
+    },
+    {
+        "model": "salonapi.accommodation",
+        "pk": 3,
+        "fields": {
+            "accommodation_name": "BYOB"
+        }
+    }
+]

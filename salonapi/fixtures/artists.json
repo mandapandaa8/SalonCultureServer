@@ -1,0 +1,12 @@
+[
+    {
+        "model": "salonapi.artist",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "medium": "Painting, Oil",
+            "cv": "I am a painter who specializes in surrealism. I like to work with bold colors and am inspired by Dali.",
+            "location_id": 1
+        }
+    }
+]
