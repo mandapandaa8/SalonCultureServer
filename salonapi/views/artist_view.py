@@ -5,17 +5,36 @@ from salonapi.models import Artist
 from django.contrib.auth.models import User
 
 class ArtistView(ViewSet):
-    def retrieve(self, request, pk):
-        artist = Artist.objects.get(pk=pk)
-        serializer = ArtistSerializer(artist)
-        return Response(serializer.data)
+    """Salon Culture Artist View"""
 
     def list(self, request):
+        """Handle GET requests to artists resource
+
+        Returns:
+            Response -- JSON serialized list of artists
+        """
         artists = Artist.objects.all()
         serializer = ArtistSerializer(artists, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status.HTTP_200_OK)
+
+    def retrieve(self, request, pk):
+        """Handle GET requests for single artist
+
+        Returns:
+            Response -- JSON serialized artist instance
+        """
+
+        artist = Artist.objects.get(pk=pk)
+        serializer = ArtistSerializer(artist)
+        return Response(serializer.data, status.HTTP_200_OK)
 
     def update(self, request, pk):
+        """Handle PUT requests for an artist
+        
+        Returns:
+            Response -- Empty body with 204 status code
+        """
+
         artist = Artist.objects.get(pk=pk)
         artist.user = request.data[User]
         artist.medium = request.data["medium"]
@@ -26,16 +45,20 @@ class ArtistView(ViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def destroy(self, request, pk):
+        """Handle DELETE requests for a single artist
+
+        Returns:
+            Response -- 200, 404, or 500 status code
+        """
+        
         artist = Artist.objects.get(pk=pk)
         artist.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class ArtistSerializer(serializers.ModelSerializer):
-    """JSON serializer for artists
-    Arguments:
-        serializers
-    """
+    """JSON serializer for artists"""
+
     class Meta:
         model = Artist
         fields = ('id', 'user', 'medium', 'cv', 'location_id')
