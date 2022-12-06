@@ -5,4 +5,5 @@ from .comment_view import CommentView
 from .event_view import EventView
 from .host_view import HostView
 from .location_view import LocationView
-from .photo_view import PhotoView
+from .artist_photo_view import ArtistPhotoView
+from .host_photo_view import HostPhotoView

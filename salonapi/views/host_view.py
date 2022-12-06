@@ -17,11 +17,10 @@ class HostView(ViewSet):
 
     def update(self, request, pk):
         host = Host.objects.get(pk=pk)
-        host.user = request.data[User]
+        host.user = User.objects.get(pk=request.data["userId"])
+        host.profile_img = request.data["profileImg"]
         host.address = request.data["address"]
         host.description = request.data["description"]
-        host.photo_id = request.data["photoId"]
-        host.location_id = request.data["locationId"]
         host.save()
         
 
@@ -40,4 +39,5 @@ class HostSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Host
-        fields = ('id', 'user', 'address', 'description', 'photo_id', 'location_id')
+        fields = ('id', 'user', 'address', 'description', 'profile_img')
+        depth = 1

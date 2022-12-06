@@ -4,4 +4,4 @@ from django.contrib.auth.models import User
 class Follower(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="follower")
-    follower_id = models.OneToOneField(User, on_delete=models.CASCADE, related_name="following")
+    follower = models.OneToOneField(User, on_delete=models.CASCADE, related_name="following")

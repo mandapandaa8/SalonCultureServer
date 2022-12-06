@@ -2,9 +2,9 @@ from .location import Location
 from .artist import Artist
 from .comment import Comment
 from .follower import Follower
-from .photo import Photo
 from .event import Event
 from .eventUser import EventUser
 from .host import Host
 from .accommodation import Accommodation
-from .user import User
+from .hostPhoto import HostPhoto
+from .artistPhoto import ArtistPhoto

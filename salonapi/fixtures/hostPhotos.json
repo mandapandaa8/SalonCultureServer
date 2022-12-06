@@ -1,0 +1,11 @@
+[
+    {
+        "model": "salonapi.hostphoto",
+        "pk": 1,
+        "fields": {
+            "host_photo": "https://s3.amazonaws.com/salonapi/1.jpg",
+            "caption": "This is a caption",
+            "user": 1
+        }
+    }
+]

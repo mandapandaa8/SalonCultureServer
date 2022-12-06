@@ -18,8 +18,18 @@ from django.conf.urls import include
 from django.urls import path
 from rest_framework import routers
 from salonapi.views import register_user, login_user
+from salonapi.views import ArtistView, AccommodationView, CommentView, EventView, HostView, LocationView, ArtistPhotoView, HostPhotoView
 
 router = routers.DefaultRouter(trailing_slash=False)
+router.register(r'artists', ArtistView, 'artist')
+router.register(r'accommodations', AccommodationView, 'accommodation')
+router.register(r'comments', CommentView, 'comment')
+router.register(r'events', EventView, 'event')
+router.register(r'hosts', HostView, 'host')
+router.register(r'locations', LocationView, 'location')
+router.register(r'artistphotos', ArtistPhotoView, 'artistphoto')
+router.register(r'hostphotos', HostPhotoView, 'hostphoto')
+
 
 urlpatterns = [
     path('register', register_user),

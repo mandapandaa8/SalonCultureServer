@@ -37,9 +37,9 @@ class ArtistView(ViewSet):
 
         artist = Artist.objects.get(pk=pk)
         artist.user = request.data[User]
+        artist.profile_img = request.data["profileImg"]
         artist.medium = request.data["medium"]
         artist.cv = request.data["cv"]
-        artist.location_id = request.data["locationId"]
         artist.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -61,4 +61,4 @@ class ArtistSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Artist
-        fields = ('id', 'user', 'medium', 'cv', 'location_id')
+        fields = ('id', 'user', 'medium', 'cv', 'profile_img')

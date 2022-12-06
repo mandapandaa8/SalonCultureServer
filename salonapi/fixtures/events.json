@@ -3,11 +3,12 @@
         "model": "salonapi.event",
         "pk": 1,
         "fields": {
-            "host_id": 1,
+            "host": 1,
             "date": "2019-01-01",
             "time": "12:00:00",
-            "accommodation_id": 1,
-            "capacity": 10
+            "accommodation": 3,
+            "capacity": 10,
+            "location": 1
         }
     }
 ]

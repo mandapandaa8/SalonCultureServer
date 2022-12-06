@@ -6,7 +6,7 @@
             "user": 1,
             "medium": "Painting, Oil",
             "cv": "I am a painter who specializes in surrealism. I like to work with bold colors and am inspired by Dali.",
-            "location_id": 1
+            "profile_img": "https://s3.amazonaws.com/salonapi/artist_profile_images/1.jpg"
         }
     }
 ]
