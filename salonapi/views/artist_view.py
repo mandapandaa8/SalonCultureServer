@@ -14,19 +14,43 @@ class ArtistView(ViewSet):
             Response -- JSON serialized list of artists
         """
         artists = Artist.objects.all()
-        serializer = ArtistSerializer(artists, many=True)
-        return Response(serializer.data, status.HTTP_200_OK)
-
+        serializer = ArtistSerializer(
+            artists, many=True, context={'request': request})
+        return Response(serializer.data)
+        
     def retrieve(self, request, pk):
         """Handle GET requests for single artist
 
         Returns:
             Response -- JSON serialized artist instance
         """
+        # step 1 = get artist matched to pk
+        # step 2 = check if req.auth.user.id = artist.user.id
+        # step 3 = define dictionary that has username, profile_img, medium, cv
+        # step 4 = if True, add my profile key to response dictionary with value = true
+        # step 5 = pass dictionary as first argument to Response 
 
+    
         artist = Artist.objects.get(pk=pk)
-        serializer = ArtistSerializer(artist)
-        return Response(serializer.data, status.HTTP_200_OK)
+        if request.auth.user.id == artist.user.id:
+            response = {
+                "id": artist.id,
+                "username": artist.user.username,
+                "profile_img": artist.profile_img,
+                "medium": artist.medium,
+                "cv": artist.cv,
+                "my_profile": True
+            }
+        else:
+            response = {
+                "id": artist.id,
+                "username": artist.user.username,
+                "profile_img": artist.profile_img,
+                "medium": artist.medium,
+                "cv": artist.cv,
+                "my_profile": False
+            }
+        return Response(response, status=status.HTTP_200_OK)
 
     def update(self, request, pk):
         """Handle PUT requests for an artist
@@ -36,10 +60,14 @@ class ArtistView(ViewSet):
         """
 
         artist = Artist.objects.get(pk=pk)
-        artist.user = request.data[User]
+        artist.user = User.objects.get(pk=request.data["userId"])
+        artist.user.email = request.data["email"]
+        artist.user.first_name = request.data["first_name"]
+        artist.user.last_name = request.data["last_name"]
+        artist.profile_img = request.data["profileImg"]
         artist.medium = request.data["medium"]
         artist.cv = request.data["cv"]
-        artist.location_id = request.data["locationId"]
+        artist.user.save()
         artist.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -61,4 +89,5 @@ class ArtistSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Artist
-        fields = ('id', 'user', 'medium', 'cv', 'location_id')
+        fields = ('id', 'user', 'medium', 'cv', 'profile_img')
+        depth = 1

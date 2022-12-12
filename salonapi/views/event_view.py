@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from salonapi.models import Event
+from salonapi.models import Event, Accommodation, Host, Location
 
 class EventView(ViewSet):
     def retrieve(self, request, pk):
@@ -14,13 +14,28 @@ class EventView(ViewSet):
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
 
+    def create(self, request):
+        new_event = Event()
+        new_event.host = Host.objects.get(pk=request.data["hostId"])
+        new_event.date = request.data["date"]
+        new_event.time = request.data["time"]
+        new_event.accommodation = Accommodation.objects.get(pk=request.data["accommodationId"])
+        new_event.capacity = request.data["capacity"]
+        new_event.location = Location.objects.get(pk=request.data["locationId"])
+        new_event.save()
+
+        serializer = EventSerializer(new_event)
+
+        return Response(serializer.data)
+
     def update(self, request, pk):
         event = Event.objects.get(pk=pk)
-        event.host_id = request.data["hostId"]
+        event.host = Host.objects.get(pk=request.data["hostId"])
         event.date = request.data["date"]
         event.time = request.data["time"]
-        event.accommodation_id = request.data["accommodationId"]
+        event.accommodation = Accommodation.objects.get(pk=request.data["accommodationId"])
         event.capacity = request.data["capacity"]
+        event.location = Location.objects.get(pk=request.data["locationId"])
         event.save()
 
     def destroy(self, request, pk):
@@ -36,4 +51,4 @@ class EventSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Event
-        fields = ('id', 'host_id', 'date', 'time', 'accommodation_id', 'capacity')
+        fields = ('id', 'host', 'date', 'time', 'accommodation', 'capacity', 'location')

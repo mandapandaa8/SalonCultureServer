@@ -81,13 +81,6 @@ def register_user(request):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-            location_id = request.data.get("location_id", None)
-            if location_id is None:
-                return Response(
-                    {'message': 'Location ID is a required field for artists'}, 
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
         elif account_type == "host":
             address = request.data.get("address", None)
             if address is None:
@@ -103,31 +96,10 @@ def register_user(request):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-            accommodation_id = request.data.get("accommodation_id", None)
-            if accommodation_id is None:
-                return Response(
-                    {'message': 'Accommodation is a required field for hosts'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
             description = request.data.get("description", None)
             if description is None:
                 return Response(
                     {'message': 'Description is a required field for hosts'}, 
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
-            photo_id = request.data.get("photo_id", None)
-            if photo_id is None:
-                return Response(
-                    {'message': 'Profile image is a required field for hosts'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
-            location_id = request.data.get("location_id", None)
-            if location_id is None:
-                return Response(
-                    {'message': 'Location is a required field for hosts'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
@@ -142,6 +114,7 @@ def register_user(request):
             # on Django's built-in User model
             new_user = User.objects.create_user(
                 username = request.data["username"],
+                is_staff = request.data["is_staff"],
                 password = request.data["password"],
                 email = request.data["email"],
                 first_name = request.data["first_name"],
@@ -159,26 +132,22 @@ def register_user(request):
         if account_type == "artist":
             account = Artist.objects.create(
                 user = new_user,
-                medium = medium,
-                cv = cv,
-                profile_img = profile_img,
-                location_id = location_id
+                profile_img = request.data["profile_img"],
+                medium = request.data["medium"],
+                cv = request.data["cv"]
             )
         elif account_type == "host":
             account = Host.objects.create(
                 user = new_user,
-                address = address,
-                profile_img = profile_img,
-                accommodation_id = accommodation_id,
-                description = description,
-                photo_id = photo_id,
-                location_id = location_id
+                profile_img = request.data["profile_img"],
+                address = request.data["address"],
+                description = request.data["description"]
             )
 
         # Use the REST Framework's token generator on the new user account
-        token = Token.objects.create(user=account.user_id)
+        token = Token.objects.create(user=account.user)
         # Return the token to the client
         data = { 'token': token.key }
         return Response(data)
 
-    return Response({'message': 'You must provide a username, profile image, password, email, first and last name'}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({'message': 'You must provide all fields to register'}, status=status.HTTP_400_BAD_REQUEST)

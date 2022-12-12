@@ -5,23 +5,49 @@ from salonapi.models import Host
 from django.contrib.auth.models import User
 
 class HostView(ViewSet):
+    """Handle requests for single host"""
+
     def retrieve(self, request, pk):
+
         host = Host.objects.get(pk=pk)
-        serializer = HostSerializer(host)
-        return Response(serializer.data)
+        if request.auth.user.id == host.user.id:
+            response = {
+                "id": host.id,
+                "username": host.user.username,
+                "email": host.user.email,
+                "profile_img": host.profile_img,
+                "address": host.address,
+                "description": host.description,
+                "my_profile": True
+            }
+        else:
+            response = {
+                "id": host.id,
+                "username": host.user.username,
+                "email": host.user.email,
+                "profile_img": host.profile_img,
+                "address": host.address,
+                "description": host.description,
+                "my_profile": False
+            }
+        return Response(response, status=status.HTTP_200_OK)
+        
 
     def list(self, request):
-        hosts = Host.objects.all()
-        serializer = HostSerializer(hosts, many=True)
+        """Handle GET requests to host resource"""
+        
+        host = Host.objects.all()
+        serializer = HostSerializer(host, many=True)
         return Response(serializer.data)
 
     def update(self, request, pk):
         host = Host.objects.get(pk=pk)
-        host.user = request.data[User]
+        host.user = User.objects.get(pk=request.data["userId"])
+        host.user.email = request.data["email"]
+        host.profile_img = request.data["profileImg"]
         host.address = request.data["address"]
         host.description = request.data["description"]
-        host.photo_id = request.data["photoId"]
-        host.location_id = request.data["locationId"]
+        host.user.save()
         host.save()
         
 
@@ -40,4 +66,5 @@ class HostSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Host
-        fields = ('id', 'user', 'address', 'description', 'photo_id', 'location_id')
+        fields = ('id', 'user', 'address', 'description', 'profile_img')
+        depth = 1

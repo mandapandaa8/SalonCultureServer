@@ -2,7 +2,6 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from salonapi.models import Location
-from django.contrib.auth.models import User
 
 class LocationView(ViewSet):
     def retrieve(self, request, pk):
@@ -13,6 +12,16 @@ class LocationView(ViewSet):
     def list(self, request):
         locations = Location.objects.all()
         serializer = LocationSerializer(locations, many=True)
+        return Response(serializer.data)
+
+    def create(self, request):
+        new_location = Location()
+        new_location.city = request.data["city"]
+        new_location.state = request.data["state"]
+        new_location.save()
+
+        serializer = LocationSerializer(new_location)
+
         return Response(serializer.data)
 
     def update(self, request, pk):
