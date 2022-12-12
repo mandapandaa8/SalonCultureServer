@@ -24,7 +24,7 @@ class AccommodationView(ViewSet):
             Response -- JSON serialized list of Accommodations
         """
 
-        accommodations = Accommodation.objects.order_by('accommodationName').all()
+        accommodations = Accommodation.objects.order_by('accommodation_name').all()
         serializer = AccommodationSerializer(accommodations, many=True)
         return Response(serializer.data)
 
@@ -51,7 +51,7 @@ class AccommodationView(ViewSet):
         """
 
         accommodation = Accommodation.objects.get(pk=pk)
-        accommodation.accommodationName = request.data["accommodationName"]
+        accommodation.accommodation_name = request.data["accommodationName"]
         accommodation.save()
 
         return Response( status=status.HTTP_204_NO_CONTENT)

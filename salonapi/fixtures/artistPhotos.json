@@ -3,9 +3,9 @@
         "model": "salonapi.artistphoto",
         "pk": 1,
         "fields": {
-            "artist_photo": "https://s3.amazonaws.com/salonapi/1.jpg",
+            "photo_url": "https://s3.amazonaws.com/salonapi/1.jpg",
             "caption": "This is a caption",
-            "user": 1
+            "artist": 1
         }
     }
 ]
