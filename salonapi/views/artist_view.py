@@ -36,6 +36,9 @@ class ArtistView(ViewSet):
             response = {
                 "id": artist.id,
                 "username": artist.user.username,
+                "first_name": artist.user.first_name,
+                "last_name": artist.user.last_name,
+                "email": artist.user.email,
                 "profile_img": artist.profile_img,
                 "medium": artist.medium,
                 "cv": artist.cv,
@@ -45,6 +48,9 @@ class ArtistView(ViewSet):
             response = {
                 "id": artist.id,
                 "username": artist.user.username,
+                "first_name": artist.user.first_name,
+                "last_name": artist.user.last_name,
+                "email": artist.user.email,
                 "profile_img": artist.profile_img,
                 "medium": artist.medium,
                 "cv": artist.cv,
@@ -60,15 +66,15 @@ class ArtistView(ViewSet):
         """
 
         artist = Artist.objects.get(pk=pk)
-        artist.user = User.objects.get(pk=request.data["userId"])
+        artist.profile_img = request.data["profile_img"]
+        artist.medium = request.data["medium"]
+        artist.cv = request.data["cv"]
+        artist.save()
+        artist.user.username = request.data["username"]
         artist.user.email = request.data["email"]
         artist.user.first_name = request.data["first_name"]
         artist.user.last_name = request.data["last_name"]
-        artist.profile_img = request.data["profileImg"]
-        artist.medium = request.data["medium"]
-        artist.cv = request.data["cv"]
         artist.user.save()
-        artist.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
