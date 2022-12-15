@@ -14,6 +14,8 @@ class HostView(ViewSet):
             response = {
                 "id": host.id,
                 "username": host.user.username,
+                "first_name": host.user.first_name,
+                "last_name": host.user.last_name,
                 "email": host.user.email,
                 "profile_img": host.profile_img,
                 "address": host.address,
@@ -24,6 +26,8 @@ class HostView(ViewSet):
             response = {
                 "id": host.id,
                 "username": host.user.username,
+                "first_name": host.user.first_name,
+                "last_name": host.user.last_name,
                 "email": host.user.email,
                 "profile_img": host.profile_img,
                 "address": host.address,
@@ -42,13 +46,13 @@ class HostView(ViewSet):
 
     def update(self, request, pk):
         host = Host.objects.get(pk=pk)
-        host.user = User.objects.get(pk=request.data["userId"])
-        host.user.email = request.data["email"]
-        host.profile_img = request.data["profileImg"]
+        host.profile_img = request.data["profile_img"]
         host.address = request.data["address"]
         host.description = request.data["description"]
-        host.user.save()
         host.save()
+        host.user.username = request.data["username"]
+        host.user.email = request.data["email"]
+        host.user.save()
         
 
         return Response(status=status.HTTP_204_NO_CONTENT)

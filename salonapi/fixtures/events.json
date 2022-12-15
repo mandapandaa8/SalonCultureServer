@@ -4,11 +4,12 @@
         "pk": 1,
         "fields": {
             "host": 1,
+            "name": "Event 1",
             "date": "2019-01-01",
             "time": "12:00:00",
             "accommodation": 3,
             "capacity": 10,
-            "location": 1
+            "details": "A great place to talk about art, I have 5 walls to display, and we can rotate accordingly"
         }
     }
 ]

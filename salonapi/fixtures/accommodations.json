@@ -19,5 +19,12 @@
         "fields": {
             "accommodation_name": "BYOB"
         }
+    },
+    {
+        "model": "salonapi.accommodation",
+        "pk": 4,
+        "fields": {
+            "accommodation_name": "Food and Drinks"
+        }
     }
 ]
