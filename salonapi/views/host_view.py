@@ -39,11 +39,17 @@ class HostView(ViewSet):
 
     def list(self, request):
         """Handle GET requests to host resource"""
-        
-        host = Host.objects.all()
-        serializer = HostSerializer(host, many=True)
-        return Response(serializer.data)
 
+        if 'myprofile' in request.query_params:
+            host = Host.objects.filter(user=request.auth.user)
+            serializer = HostSerializer(host, many=False)
+            return Response(serializer.data)
+
+        else:
+            host = Host.objects.all()
+            serializer = HostSerializer(host, many=True)
+            return Response(serializer.data)
+        
     def update(self, request, pk):
         host = Host.objects.get(pk=pk)
         host.profile_img = request.data["profile_img"]
