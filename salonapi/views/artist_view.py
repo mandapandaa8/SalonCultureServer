@@ -13,10 +13,17 @@ class ArtistView(ViewSet):
         Returns:
             Response -- JSON serialized list of artists
         """
-        artists = Artist.objects.all()
-        serializer = ArtistSerializer(
-            artists, many=True, context={'request': request})
-        return Response(serializer.data)
+
+        if "myprofile" in request.query_params:
+            artist = Artist.objects.filter(user=request.auth.user)
+            serializer = ArtistSerializer(
+                artist, many=False, context={'request': request})
+            return Response(serializer.data)
+        else:
+            artists = Artist.objects.all()
+            serializer = ArtistSerializer(
+                artists, many=True, context={'request': request})
+            return Response(serializer.data)
         
     def retrieve(self, request, pk):
         """Handle GET requests for single artist
