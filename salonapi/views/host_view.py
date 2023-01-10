@@ -5,7 +5,7 @@ from salonapi.models import Host
 from django.contrib.auth.models import User
 
 class HostView(ViewSet):
-    """Handle requests for single host"""
+    """Handle GET requests for single host"""
 
     def retrieve(self, request, pk):
 
@@ -40,7 +40,7 @@ class HostView(ViewSet):
     def list(self, request):
         """Handle GET requests to host resource"""
 
-        if 'myprofile' in request.query_params:
+        if 'hosts' in request.query_params:
             host = Host.objects.filter(user=request.auth.user)
             serializer = HostSerializer(host, many=False)
             return Response(serializer.data)

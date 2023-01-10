@@ -4,12 +4,14 @@ from rest_framework import serializers, status
 from salonapi.models import Event, Accommodation, Host, Artist
 from rest_framework.decorators import action
 
+
 class EventView(ViewSet):
     def retrieve(self, request, pk):
         """Handle GET requests for single event"""
 
         event = Event.objects.get(pk=pk)
         if request.auth.user.id == event.host.user.id:
+            attendees = [artist.user.username for artist in event.attendees.all()]
             response = {
                 "id": event.id,
                 "host": event.host.id,
@@ -21,9 +23,11 @@ class EventView(ViewSet):
                 "details": event.details,
                 "capacity": event.capacity,
                 "username": event.host.user.username,
+                "attendees": attendees,
                 "my_event": True
             }
         else:
+            attendees = [artist.user.username for artist in event.attendees.all()]
             response = {
                 "id": event.id,
                 "host": event.host.id,
@@ -35,15 +39,16 @@ class EventView(ViewSet):
                 "username": event.host.user.username,
                 "details": event.details,
                 "capacity": event.capacity,
+                "attendees": attendees,
                 "my_event": False
             }
         return Response(response, status=status.HTTP_200_OK)
 
     def list(self, request):
-        """Handle GET requests to get all game types
+        """Handle GET requests to get all event types
 
         Returns:
-            Response -- JSON serialized list of game types
+            Response -- JSON serialized list of event types
         """
         if request.auth.user.is_staff:
             events = Event.objects.all()
@@ -86,7 +91,8 @@ class EventView(ViewSet):
         new_event.date = request.data["date"]
         new_event.time = request.data["time"]
         new_event.details = request.data["details"]
-        new_event.accommodation = Accommodation.objects.get(pk=request.data["accommodationId"])
+        new_event.accommodation = Accommodation.objects.get(
+            pk=request.data["accommodationId"])
         new_event.capacity = request.data["capacity"]
         new_event.save()
 
@@ -103,7 +109,8 @@ class EventView(ViewSet):
         event.date = request.data["date"]
         event.time = request.data["time"]
         event.details = request.data["details"]
-        event.accommodation = Accommodation.objects.get(pk=request.data["accommodation"])
+        event.accommodation = Accommodation.objects.get(
+            pk=request.data["accommodation"])
         event.capacity = request.data["capacity"]
         event.save()
 
@@ -121,5 +128,6 @@ class EventSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Event
-        fields = ('id', 'host', 'name', 'date', 'time', 'details', 'accommodation', 'capacity', 'attendees', 'joined')
-        depth = 2
+        fields = ('id', 'host', 'name', 'date', 'time', 'details',
+                  'accommodation', 'capacity', 'attendees', 'joined', 'attendee_count')
+        depth = 3
